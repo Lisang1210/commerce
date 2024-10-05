@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<aside th:fragment="sidebar-fragment(path)" class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a th:href="@{qifei/Suppilerindex}" class="brand-link">
+        <span class="brand-text font-weight-light">OnlineMall</span>
+    </a>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                     with font-awesome or any other icon font library -->
+                <li class="nav-header">报表管理</li>
+                <li class="nav-item">
+                    <a th:href="@{/supplier/dataShow}" th:class="${path}=='dataShow'?'nav-link active':'nav-link'">
+                        <i class="fa fa-archive nav-icon" aria-hidden="true"></i>
+                        <p>
+                            数据总览
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-header">货物管理</li>
+                <li class="nav-item">
+                    <a th:href="@{/supplier/productList}" th:class="${path}=='productList'?'nav-link active':'nav-link'">
+                        <i class="fa fa-users nav-icon" aria-hidden="true"></i>
+                        <p>
+                            货物仓库
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-header">入库管理</li>
+                <li class="nav-item">
+                    <a th:href="@{/supplier/inRecord}" th:class="${path}=='inRecord'?'nav-link active':'nav-link'">
+                        <i class="fa fa-money nav-icon" aria-hidden="true"></i>
+                        <p>
+                            入库记录
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-header">出库管理</li>
+                <li class="nav-item">
+                    <a th:href="@{/supplier/handleOrder}" th:class="${path}=='handleOrder'?'nav-link active':'nav-link'">
+                        <i class="fa fa-money nav-icon" aria-hidden="true"></i>
+                        <p>
+                            处理订单
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/supplier/outRecord}" th:class="${path}=='outRecord'?'nav-link active':'nav-link'">
+                        <i class="fa fa-money nav-icon" aria-hidden="true"></i>
+                        <p>
+                            出库记录
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-header">系统管理</li>
+                <li class="nav-item">
+                    <a th:href="@{/common/modify}" th:class="${path}=='modify'?'nav-link active':'nav-link'">
+                        <i class="fa fa-users nav-icon" aria-hidden="true"></i>
+                        <p>
+                            个人信息
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/common/logout}" class="nav-link">
+                        <i class="fa fa-sign-out nav-icon"></i>
+                        <p>安全退出</p>
+                    </a>
+                </li>
+            </ul>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+</html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qifei.mapper.PurchaserMapper">
+
+    <select id="selectByNamePwd" resultType="com.qifei.pojo.Purchaser">
+        select * from purchaser where id = #{id} and password = #{password}
+    </select>
+
+    <select id="selectPurchaserByName" resultType="com.qifei.pojo.Purchaser">
+        select * from purchaser where name like concat('%',#{name},'%') and admin_id = #{adminId}
+    </select>
+
+    <delete id="deleteById" parameterType="java.util.List">
+        delete from purchaser where id in
+        <foreach collection="deleteIdList" item="deleteId" open="(" close=")" separator=",">
+            #{deleteId}
+        </foreach>
+    </delete>
+
+    <insert id="insertPurchaser">
+        insert into purchaser(name,password,image,contact,admin_id) value(#{name},#{password},#{image},#{contact},#{adminId})
+    </insert>
+
+    <update id="updatePurchaser">
+        update purchaser <set>
+        <if test="name!=null">
+            name = #{name},
+        </if>
+        <if test="image!=null">
+            image = #{image},
+        </if>
+        <if test="contact!=null">
+            contact = #{contact}
+        </if>
+    </set>
+        where id = #{id}
+    </update>
+
+    <update id="updatePassword">
+        update purchaser set password = #{password} where id = #{id}
+    </update>
+</mapper>

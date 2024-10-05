@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<header th:replace="qifei/header::header-fragment">
+</header>
+<style>
+    .centerAlign {
+        text-align: center; /* 水平居中 */
+        vertical-align: middle; /* 垂直居中 */
+    }
+
+    .ui-jqgrid tr.jqgrow td {
+        white-space: normal !important;
+        height: auto;
+        vertical-align: text-top;
+        padding-top: 2px;
+    }
+
+    a {
+        color: #1baeae;
+        text-decoration: none;
+        background-color: transparent;
+        -webkit-text-decoration-skip: objects;
+    }
+    a:hover {
+        color: white;
+        background-color: #1baeae;
+    }
+</style>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <!-- 引入页面头header-fragment -->
+    <div th:replace="qifei/header::header-nav"></div>
+    <!-- 引入工具栏sidebar-fragment -->
+    <div th:replace="qifei/supplierSidebar::sidebar-fragment(${path})"></div>
+    <!--        <div th:replace="~{qifei/purchaserSidebar::sidebar-fragment(${path})}"></div>
+            <div th:replace="~{qifei/supplierSidebar::sidebar-fragment(${path})}"></div>-->
+    <!-- Content Wrapper. Contains 图标content -->
+    <!-- Content Header (图标header) -->
+    <div th:replace="qifei/personInfo::body-content"></div>
+    <!-- /.content-wrapper -->
+    <!-- 引入页脚footer-fragment -->
+    <div th:replace="qifei/footer::footer-fragment"></div>
+</div>
+<!-- jQuery -->
+</body>
+</html>

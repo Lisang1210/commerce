@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ECharts 示例</title>
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">记录管理</h3>
+                </div> <!-- /.card-body -->
+                <div class="card-body">
+                    <div class="grid-btn">
+                        <input type="text" id="searchProduct" name="searchProduct" placeholder="请输入货物名称">
+                        <button type="submit" class="btn btn-info" onclick="search()" style="margin-left: 5px">搜索</button>
+                    </div>
+                    <table id="jqGrid" class="table table-bordered">
+                    </table>
+                    <div id="jqGridPager"></div>
+                </div><!-- /.card-body -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- 引入页脚footer-fragment -->
+    </div>
+</head>
+<body>
+<!-- jQuery -->
+<script th:src="@{/qifei/plugins/jquery/jquery.min.js}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script th:src="@{/qifei/plugins/jQueryUI/jquery-ui.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/qifei/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/qifei/dist/js/adminlte.min.js}"></script>
+<!-- jqgrid -->
+<script th:src="@{/qifei/plugins/jqgrid-5.3.0/jquery.jqGrid.min.js}"></script>
+<script th:src="@{/qifei/plugins/jqgrid-5.3.0/grid.locale-cn.js}"></script>
+<!-- sweetalert -->
+<script th:src="@{/qifei/plugins/sweetalert/sweetalert.min.js}"></script>
+<script th:src="@{/qifei/dist/js/public.js}"></script>
+
+<script th:src="@{/qifei/dist/js/recordList.js}"></script>
+</body>
+</html>

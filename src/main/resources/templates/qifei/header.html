@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header-fragment">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>OnlineMall | 后台管理系统</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="shortcut icon" th:href="@{/qifei/dist/img/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/qifei/dist/css/font-awesome.min.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" th:href="@{/qifei/dist/css/ionicons.min.css}">
+    <link rel="stylesheet" th:href="@{/qifei/dist/css/main.css}">
+    <link rel="stylesheet" th:href="@{/qifei/plugins/bootstrap/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/qifei/plugins/sweetalert/sweetalert.css}"/>
+    <link rel="stylesheet" th:href="@{/qifei/plugins/jqgrid-5.3.0/ui.jqgrid-bootstrap4.css}"/>
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/qifei/dist/css/adminlte.min.css}">
+</head>
+<!-- Navbar -->
+<nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom" th:fragment="header-nav">
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+            <a class="nav-link" th:href="@{/}">
+                <i class="fa fa-paper-plane">&nbsp;&nbsp;起飞集团电商管理首页</i>
+            </a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+                <i class="fa fa-user">姓名:</i><span th:text="${session.User.name}"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                <div class="dropdown-divider"></div>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">
+                    <i class="fa fa-user-o mr-2"></i> id
+                    <span  id="userId" class="float-right text-muted text-sm" th:text="${session.User.id}"></span>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">
+                    <i class="fa fa-user-o mr-2"></i> 姓名
+                    <span class="float-right text-muted text-sm" th:text="${session.User.name}"></span>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">
+                    <i class="fa fa-user-secret mr-2"></i> 身份
+                    <span class="float-right text-muted text-sm" th:text="${session.User.identify}"></span>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">
+                    <i class="fa fa-address-card mr-2"></i> 联系方式
+                    <span class="float-right text-muted text-sm" th:text="${session.User.contact}"></span>
+                </a>
+            </div>
+        </li>
+    </ul>
+</nav>
+<!-- /.navbar -->
+</html>

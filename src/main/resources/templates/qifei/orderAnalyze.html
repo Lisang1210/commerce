@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<header th:replace="qifei/header::header-fragment">
+</header>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <link rel="stylesheet" th:href="@{/qifei/iconfont/iconfont.css}">
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        .box {
+            flex: 1;
+            margin: 0 10px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            text-align: center;
+            border: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 150px; /* 根据需要调整高度 */
+            border-radius: 10px; /* 控制圆角的半径 */
+            /* background-color: rgb(217, 237, 247); */
+            background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+        }
+        .iconfont{
+            font-size: 30px;
+
+        }
+        .dataNumber{
+            margin: 5px;
+            font-weight: 700;
+            font-size: 25px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+    </style>
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <!-- 引入页面头header-fragment -->
+    <div th:replace="qifei/header::header-nav"></div>
+    <!-- 引入工具栏sidebar-fragment -->
+    <div th:replace="qifei/purchaserSidebar::sidebar-fragment(${path})"></div>
+    <!-- Content Wrapper. Contains 图标content -->
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+<!--                    <div class="card-header">-->
+<!--                        <h3 class="card-title">订单管理</h3>-->
+<!--                    </div> &lt;!&ndash; /.card-body &ndash;&gt;-->
+                    <div class="card-body">
+                        <div style="margin-left:20px">
+                            <div class="container">
+                                <div class="box box1">
+                                    <span class="iconfont icon-shouye3"></span>
+                                    <p class="dataNumber">今日新增订单</p>
+                                    <p id="todayAdd" class="dataNumber"></p>
+                                </div>
+                                <div class="box box1">
+                                    <span class="iconfont icon-shouye"></span>
+                                    <p class="dataNumber">
+                                        今日已完成订单
+                                    </p>
+                                    <p id="todayFinish" class="dataNumber"></p>
+                                </div>
+                                <div class="box box1">
+                                    <span class="iconfont icon-shouye1"></span>
+                                    <p class="dataNumber">截至今日待响应订单</p>
+                                    <p id="allWait" class="dataNumber">12</p>
+                                </div>
+                            </div>
+                            <div class="container">
+                                <div id="main1" class="box" style="width: 600px; height: 400px;"></div>
+                                <div id="main2" class="box" style="width: 600px; height: 400px;"></div>
+                            </div>
+                        </div>
+                    </div><!-- /.card-body -->
+                </div>
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- 引入页脚footer-fragment -->
+</div>
+    <div th:replace="qifei/footer::footer-fragment"></div>
+</div>
+<script>
+
+</script>
+
+<!-- jQuery -->
+<script th:src="@{/qifei/plugins/jquery/jquery.min.js}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script th:src="@{/qifei/plugins/jQueryUI/jquery-ui.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/qifei/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/qifei/dist/js/adminlte.min.js}"></script>
+<!-- jqgrid -->
+<script th:src="@{/qifei/plugins/jqgrid-5.3.0/jquery.jqGrid.min.js}"></script>
+<script th:src="@{/qifei/plugins/jqgrid-5.3.0/grid.locale-cn.js}"></script>
+<!-- sweetalert -->
+<script th:src="@{/qifei/plugins/sweetalert/sweetalert.min.js}"></script>
+<script th:src="@{/qifei/dist/js/public.js}"></script>
+
+<script th:src="@{/qifei/dist/js/orderEchar.js}"></script>
+</body>
+</html>

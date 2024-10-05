@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qifei.mapper.AdminMapper">
+
+    <select id="selectByNamePwd" resultType="com.qifei.pojo.Admin">
+        select * from admin where id=#{id} and password =#{password}
+    </select>
+
+    <update id="updateAdmin">
+        update admin
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="image != null">
+                image = #{image},
+            </if>
+            <if test="contact != null">
+                contact = #{contact}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <update id="updatePassword">
+        update admin set password = #{password} where id = #{id}
+    </update>
+
+</mapper>

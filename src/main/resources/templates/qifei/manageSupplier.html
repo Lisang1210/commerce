@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<header th:replace="qifei/header::header-fragment">
+</header>
+<style>
+    .ui-jqgrid tr.jqgrow td {
+        white-space: normal !important;
+        height: auto;
+        vertical-align: text-top;
+        padding-top: 2px;
+    }
+
+    a {
+        color: #1baeae;
+        text-decoration: none;
+        background-color: transparent;
+        -webkit-text-decoration-skip: objects;
+    }
+    a:hover {
+        color: white;
+        background-color: #1baeae;
+    }
+</style>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <!-- 引入页面头header-fragment -->
+    <div th:replace="qifei/header::header-nav"></div>
+    <!-- 引入工具栏sidebar-fragment -->
+    <div th:replace="qifei/adminSidebar::sidebar-fragment(${path})"></div>
+    <!-- Content Wrapper. Contains 图标content -->
+    <div class="content-wrapper">
+        <!-- Content Header (图标header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">供应商管理</h3>
+                    </div> <!-- /.card-body -->
+                    <div class="card-body">
+                        <div class="grid-btn">
+                                <input type="text" id="searchSupplier" name="searchSupplier" placeholder="请输入供应商名称">
+                                <button type="submit" class="btn btn-info" onclick="search()" style="margin-left: 5px">搜索</button>
+                            <button class="btn btn-success" onclick="addShow()" style="position: absolute;right: 20%"><i
+                                    class="fa fa-plus"></i>&nbsp;添加
+                            </button>
+                            <button class="btn btn-danger" onclick="deleted()" style="position: absolute;right: 5%"><i
+                                    class="fa fa-trash-o"></i>&nbsp;批量删除
+                            </button>
+                        </div>
+                        <table id="jqGrid" class="table table-bordered">
+                        </table>
+                        <div id="jqGridPager"></div>
+                    </div><!-- /.card-body -->
+                </div>
+            </div><!-- /.container-fluid -->
+        </div>
+        <div class="content">
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="addModal" tabindex="-1" role="dialog"
+                 aria-labelledby="carouselModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h6 class="modal-title" id="carouselModalLabel">关闭</h6>
+                        </div>
+                        <div class="modal-body">
+                            <form id="indexConfigForm">
+                                <div class="form-group">
+                                    <div class="alert alert-danger" id="edit-error-msg" style="display: none;">
+                                        错误信息展示栏。
+                                    </div>
+                                </div>
+                                <br>
+                                <!--th:value="${session.User.id}"-->
+                                <div class="form-group">
+                                    <label for="adminId" class="control-label">管理员编号：</label>
+                                    <input type="text" class="form-control" id="adminId" name="adminId" value="1"  readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name" class="control-label">供应商名称：</label>
+                                    <input type="text" class="form-control" id="name" name="name"
+                                           placeholder="请输入供应商" required="true">
+                                </div>
+                                <div class="form-group">
+                                    <label for="contact" class="control-label">联系方式：</label>
+                                    <input type="text" class="form-control" id="contact" name="contact"
+                                           placeholder="请输入联系方式" required="true">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="control-label">登陆密码：</label>
+                                    <input type="password" class="form-control" id="password" name="password"
+                                           placeholder="请输入登陆密码" required="true">
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <img id="carouselImg" src="/qifei/dist/img/img-upload.png"
+                                             style="height: 64px;width: 64px;">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <button class="btn btn-info" style="margin-bottom: 5px;"
+                                                id="uploadCarouselImage">
+                                            <i class="fa fa-picture-o"></i>&nbsp;上传头像
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" id="saveButton" onclick="add()">确认</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal -->
+        </div>
+    </div>
+    <!-- /.content-wrapper -->
+    <!-- 引入页脚footer-fragment -->
+    <div th:replace="qifei/footer::footer-fragment"></div>
+</div>
+<!-- jQuery -->
+<script th:src="@{/qifei/plugins/jquery/jquery.min.js}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script th:src="@{/qifei/plugins/jQueryUI/jquery-ui.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/qifei/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/qifei/dist/js/adminlte.min.js}"></script>
+<!-- jqgrid -->
+<script th:src="@{/qifei/plugins/jqgrid-5.3.0/jquery.jqGrid.min.js}"></script>
+<script th:src="@{/qifei/plugins/jqgrid-5.3.0/grid.locale-cn.js}"></script>
+<!-- sweetalert -->
+<script th:src="@{/qifei/plugins/sweetalert/sweetalert.min.js}"></script>
+<script th:src="@{/qifei/dist/js/public.js}"></script>
+<script th:src="@{/qifei/plugins/ajaxupload/ajaxupload.js}"></script>
+<script th:src="@{/qifei/dist/js/manageSupplier.js}"></script>
+
+</body>
+</html>

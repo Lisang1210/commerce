@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<aside th:fragment="sidebar-fragment(path)" class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a th:href="@{/admin/adminIndex}" class="brand-link">
+        <span class="brand-text font-weight-light">OnlineMall</span>
+    </a>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false">
+                <li class="nav-item">
+                    <a th:href="@{/admin/manageSupplier}" th:class="${path}=='manageSupplier'?'nav-link active':'nav-link'">
+                        <i class="fa fa-archive nav-icon" aria-hidden="true"></i>
+                        <p>
+                            供应商管理
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/admin/managePurchaser}" th:class="${path}=='managePurchaser'?'nav-link active':'nav-link'">
+                        <i class="fa fa-users nav-icon" aria-hidden="true"></i>
+                        <p>
+                            采购员管理
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-header">系统管理</li>
+                <li class="nav-item">
+                    <a th:href="@{/common/modify}" th:class="${path}=='modify'?'nav-link active':'nav-link'">
+                        <i class="fa fa-users nav-icon" aria-hidden="true"></i>
+                        <p>
+                            个人信息
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/common/logout}" class="nav-link">
+                        <i class="fa fa-sign-out nav-icon"></i>
+                        <p>安全退出</p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+</html>

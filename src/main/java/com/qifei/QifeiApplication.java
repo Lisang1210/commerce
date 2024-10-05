@@ -1,0 +1,15 @@
+package com.qifei;
+
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@MapperScan("com.qifei.mapper")
+@SpringBootApplication
+public class QifeiApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(QifeiApplication.class, args);
+    }
+
+}

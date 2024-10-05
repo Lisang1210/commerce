@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qifei.mapper.RecordMapper">
+
+    <resultMap id="recordMap" type="com.qifei.util.RecordResult">
+        <result column="p_id" property="productId" jdbcType="BIGINT" />
+        <result column="p_name" property="productName" jdbcType="VARCHAR" />
+        <result column="p_image" property="productImage" jdbcType="VARCHAR" />
+        <result column="number" property="number" jdbcType="INTEGER" />
+        <result column="inventory" property="inventory" jdbcType="INTEGER" />
+        <result column="op_time" property="opTime" jdbcType="INTEGER" />
+    </resultMap>
+
+    <resultMap id="productDate" type="com.qifei.util.DateAndTotal">
+        <result column="finish_date" property="finishDate" jdbcType="VARCHAR" />
+        <result column="total" property="total" jdbcType="DOUBLE" />
+        <result column="number" property="number" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="selectRecord" resultMap="recordMap">
+
+        select
+            p.id as p_id,
+            p.name as p_name,
+            p.image as p_image,
+            r.number as number,
+            r.op_time as op_time,
+            r.inventory as inventory
+        from record r JOIN product p ON r.product_id = p.id  where p.supplier_id = #{supplierId} and type = #{type} and p.name like concat('%',#{name},'%')
+
+</select>
+
+    <delete id="deleteRecords" parameterType="java.util.List">
+
+        delete from record where id in
+        <foreach collection="deleteIdList" item="deleteId" open="(" close=")" separator=",">
+            #{deleteId}
+        </foreach>
+
+    </delete>
+
+    <select id="getOutProduct" resultMap="productDate">
+
+        SELECT
+            DATE(r.op_time) AS finish_date,
+            SUM(r.number) AS total
+        from record r JOIN product p ON r.product_id = p.id  where p.supplier_id = #{supplierId}
+          AND type = '0'
+          AND r.op_time >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+        GROUP BY
+            finish_date
+        ORDER BY
+            finish_date
+
+    </select>
+
+    <select id="getInProduct" resultMap="productDate">
+        SELECT
+            DATE(r.op_time) AS finish_date,
+            SUM(r.number) AS total
+        from record r JOIN product p ON r.product_id = p.id  where p.supplier_id = #{supplierId}
+          AND  type = '1'
+          AND r.op_time >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+        GROUP BY
+            finish_date
+        ORDER BY
+            finish_date
+    </select>
+
+    <select id="selectIn" resultType="java.lang.Integer">
+        SELECT
+            SUM(r.number)
+        from record r JOIN product p ON r.product_id = p.id
+        where p.supplier_id = #{supplierId}
+        and
+            DATE(op_time) = CURDATE()
+        and r.type = '1'
+    </select>
+
+    <select id="selectOut" resultType="java.lang.Integer">
+        SELECT
+            SUM(r.number)
+        from record r JOIN product p ON r.product_id = p.id
+        where p.supplier_id = #{supplierId}
+        and
+            DATE(op_time) = CURDATE()
+        AND r.type  = '0'
+    </select>
+
+    <insert id="insertRecordProduct">
+            insert into record(type,product_id,number,op_time,inventory) value(#{type},#{productId},#{number},#{opTime},#{inventory})
+    </insert>
+
+    <insert id="insertRecordOrder">
+        insert into record(type,order_id,product_id,number,op_time,inventory) value(#{type},#{orderId},#{productId},#{number},#{opTime},#{inventory})
+    </insert>
+</mapper>
