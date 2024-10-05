@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+</head>
+<body th:fragment="body-content">
+<div class="content-header">
+    <div class="container-fluid">
+    </div><!-- /.container-fluid -->
+</div>
+<div class="content">
+    <!-- 模态框（个人信息） -->
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" >
+            <div class="modal-body">
+                <div class="form-group" >
+                    <div class="col-sm-4" style="margin:1px auto">
+                        <img id="carouselImg" th:src="${session.User.image}"
+                             style="height: 150px;width: 150px;">
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <div class="col-sm-4" style="margin: auto">
+                        <button class="btn btn-info" style="width: 150px;margin-bottom: 5px;"
+                                id="uploadCarouselImage">
+                            <i class="fa fa-picture-o"></i>&nbsp;修改头像
+                        </button>
+                    </div>
+                </div>
+                <form id="ConfigForm">
+                    <br>
+                    <div class="form-group">
+                        <label for="identify" class="control-label">身份：</label>
+                        <input type="type" class="form-control" id="identify" name="adminId" th:value="${session.User.identify}"  readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="id" class="control-label">用户ID:</label>
+                        <input type="type" class="form-control" id="id" name="id" th:value="${session.User.id}"  readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="control-label">名称：</label>
+                        <input type="type" class="form-control" id="name" name="name" required th:value="${session.User.name}">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact" class="control-label">联系方式：</label>
+                        <input type="tel" class="form-control" id="contact" name="contact"  required th:value="${session.User.contact}">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="modifyPwdShow" onclick="passwordShow()">修改密码</button>
+                <button type="button" class="btn btn-primary" id="modifyButton" onclick="modifyUser()">修改</button>
+            </div>
+        </div>
+    </div>
+    <!-- /.modal -->
+    <div class="content">
+        <!-- 模态框（修改密码） -->
+        <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog"
+             aria-labelledby="carouselModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="psdModalLabel" style="margin: auto">Modal</h6>
+                    </div>
+                    <div class="modal-body">
+                        <form id="indexConfigForm">
+                            <div class="form-group">
+                                <div class="alert alert-danger" id="edit-error-msg" style="display: none;">
+                                    错误信息展示栏。
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label for="newPwd" class="control-label">新密码：</label>
+                                <input type="password" class="form-control" id="newPwd" name="password">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPwd" class="control-label">确认密码：</label>
+                                <input type="password" class="form-control" id="confirmPwd" name="password">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" id="modifyPwdButton" onclick="modifyPassword()">修改</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/qifei/plugins/jquery/jquery.min.js}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script th:src="@{/qifei/plugins/jQueryUI/jquery-ui.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/qifei/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/qifei/dist/js/adminlte.min.js}"></script>
+<!-- jqgrid -->
+<script th:src="@{/qifei/plugins/jqgrid-5.3.0/jquery.jqGrid.min.js}"></script>
+<script th:src="@{/qifei/plugins/jqgrid-5.3.0/grid.locale-cn.js}"></script>
+
+<!-- sweetalert -->
+<script th:src="@{/qifei/plugins/sweetalert/sweetalert.min.js}"></script>
+<script th:src="@{/qifei/dist/js/public.js}"></script>
+<script th:src="@{/qifei/plugins/ajaxupload/ajaxupload.js}"></script>
+<script th:src="@{/qifei/dist/js/modify.js}"></script>
+</body>
+</html>

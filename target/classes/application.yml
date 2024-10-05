@@ -1,0 +1,13 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/QiFeiDatabase?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf8&autoReconnect=true&useSSL=false&allowMultiQueries=true
+    username: root
+    password: 1234
+  thymeleaf:
+    prefix: classpath:/templates/
+    encoding: UTF-8
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml

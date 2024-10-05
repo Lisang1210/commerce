@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qifei.mapper.ProductMapper">
+
+    <resultMap id="productResultMap" type="com.qifei.util.ProductResult">
+        <id column="p_id" property="id" jdbcType="BIGINT" />
+        <result column="p_name" property="name" jdbcType="VARCHAR" />
+        <result column="p_price" property="price" jdbcType="DOUBLE" />
+        <result column="p_image" property="image" jdbcType="VARCHAR" />
+        <result column="p_number" property="number" jdbcType="INTEGER" />
+        <result column="p_supplierId" property="supplierId" jdbcType="INTEGER" />
+        <result column="s_supplierName" property="supplierName" jdbcType="VARCHAR"/>
+        <result column="s_supplierContact" property="supplierContact" jdbcType="VARCHAR"/>
+
+    </resultMap>
+
+    <sql id="selectProduct">
+        select
+            p.id as p_id,
+            p.name as p_name,
+            p.price as p_price,
+            p.image as p_image,
+            p.number as p_number,
+            p.supplier_id as p_supplierId,
+            s.name as s_supplierName,
+            s.contact as s_supplierContact
+        from product p JOIN supplier s ON p.supplier_id = s.id
+        where p.name like concat('%',#{name},'%')
+    </sql>
+
+    <select id="selectProductByName" resultMap="productResultMap" >
+        <include refid="selectProduct"></include>
+         and supplier_id = #{supplierId}
+    </select>
+
+    <select id="selectProductByNameAll" resultMap="productResultMap" >
+        <include refid="selectProduct"></include>
+    </select>
+
+
+    <select id="selectProductById" resultType="java.lang.Integer">
+        select number from product where id = #{id}
+    </select>
+
+
+    <delete id="deleteProducts" parameterType="java.util.List">
+        delete from product where id in
+        <foreach collection="deleteIdList" item="deleteId" open="(" close=")" separator=",">
+            #{deleteId}
+        </foreach>
+    </delete>
+
+    <insert id="insertProduct">
+        insert into product(name,image,price,number,supplier_id) value(#{product.name},#{product.image},#{product.price},#{product.number},#{product.supplierId})
+    </insert>
+
+    <update id="updateProduct">
+        update product <set>
+        <if test="product.name!=null">
+            name=#{name},
+        </if>
+        <if test="product.image!=null">
+           image=#{name},
+        </if>
+        <if test="product.price!=null">
+            price=#{price}
+        </if>
+        </set>
+    where id=id;
+    </update>
+
+    <update id="updateProductNumber">
+        update product set number = #{number} where id = #{id}
+    </update>
+
+</mapper>

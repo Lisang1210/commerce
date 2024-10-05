@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qifei.mapper.OrderMapper">
+
+    <resultMap id="orderResultMap" type="com.qifei.util.orderResult">
+        <id column="o_id" property="id" jdbcType="INTEGER" />
+        <result column="o_create_time" property="createTime" jdbcType="VARCHAR" />
+        <result column="o_finish_time" property="finishTime" jdbcType="DOUBLE" />
+        <result column="o_number" property="number" jdbcType="INTEGER" />
+        <result column="o_status" property="status" jdbcType="VARCHAR" />
+        <result column="inventory" property="inventory" jdbcType="INTEGER" />
+        <result column="p_id" property="productId" jdbcType="INTEGER"/>
+
+        <result column="p_name" property="productName" jdbcType="VARCHAR" />
+        <result column="p_price" property="productPrice" jdbcType="DOUBLE" />
+        <result column="p_image" property="productImage" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="orderDate" type="com.qifei.util.DateAndTotal">
+        <result column="finish_date" property="finishDate" jdbcType="VARCHAR" />
+        <result column="total" property="total" jdbcType="DOUBLE" />
+        <result column="number" property="number" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="selectOrder">
+        select
+            o.id as o_id,
+            o.create_time as o_create_time,
+            o.finish_time as o_finish_time,
+            o.number as o_number,
+            o.status as o_status,
+            o.inventory as inventory,
+            p.id as p_id,
+            p.name as p_name,
+            p.price as p_price,
+            p.image as p_image
+        from qifeidatabase.order o JOIN product p ON o.product_id = p.id
+        where o.status like concat('%',#{status},'%') and
+    </sql>
+
+
+    <sql id="orderData">
+        FROM
+            qifeidatabase.order o
+            JOIN
+            product p ON o.product_id = p.id
+        WHERE
+    </sql>
+
+    <sql id="purchaserOrSupplier">
+        <if test="identify=='purchaser'">
+            o.purchaser_id = #{id}
+        </if>
+
+        <if test="identify=='supplier'">
+            p.supplier_id = #{id}
+        </if>
+    </sql>
+
+    <select id="selectOrderByStatus" resultMap="orderResultMap">
+        <include refid="selectOrder"></include>
+        <include refid="purchaserOrSupplier"></include>
+    </select>
+
+    <delete id="deleteOrders" parameterType="java.util.List">
+        delete from qifeidatabase.order where id in
+        <foreach collection="deleteIdList" item="deleteId" open="(" close=")" separator=",">
+            #{deleteId}
+        </foreach>
+
+    </delete>
+
+    <insert id="insertOrder">
+        insert into qifeidatabase.order(create_time,finish_time,status,number,product_id,purchaser_id,inventory) value(#{createTime},#{finishTime},#{status},#{number},#{productId},#{purchaserId},#{inventory})
+    </insert>
+
+    <update id="updateOrderInventory">
+        update qifeidatabase.order set inventory=#{number} where product_id = #{id}  and status = '1'
+    </update>
+
+    <update id="updateOrderStatusAndFinishTime">
+        update qifeidatabase.order set status=#{status},finish_time=#{finishTime} where id = #{id}
+    </update>
+
+
+    <select id="getFinishedOrderExpense" resultMap="orderDate">
+        SELECT
+        DATE(o.finish_time) AS finish_date,
+        SUM(p.price * o.number) AS total
+        <include refid="orderData"></include>
+        o.purchaser_id = #{id}
+          AND    o.status = '2'
+          AND o.finish_time >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+        GROUP BY
+            finish_date
+        ORDER BY
+            finish_date
+    </select>
+
+    <select id="getFinishedOrder" resultMap="orderDate">
+        SELECT
+            DATE(o.finish_time) AS finish_date,
+            count(*) AS number
+        <include refid="orderData"></include>
+        o.purchaser_id = #{id}
+          AND  o.status = '2'
+          AND o.finish_time >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+        GROUP BY
+            finish_date
+        ORDER BY
+            finish_date
+    </select>
+
+
+    <select id="getAddOrder" resultMap="orderDate">
+        SELECT
+            DATE(o.create_time) AS finish_date,
+            count(*) AS number
+        <include refid="orderData"></include>
+        o.purchaser_id = #{id}
+        AND  o.create_time >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+        GROUP BY
+            finish_date
+        ORDER BY
+            finish_date
+    </select>
+
+    <select id="selectFinished" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*)
+        <include refid="orderData"></include>
+         o.purchaser_id = #{id}
+         AND o.status = '2'
+          AND DATE(finish_time) = CURDATE()
+    </select>
+
+    <select id="selectAdd" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*)
+        <include refid="orderData"></include>
+        o.purchaser_id = #{id} AND
+        DATE(create_time) = CURDATE()
+    </select>
+
+    <select id="selectAllAwait" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*)
+        <include refid="orderData"></include>
+        <include refid="purchaserOrSupplier"></include>
+       AND o.status = '1'
+          AND DATE(create_time) = CURDATE()
+    </select>
+
+</mapper>
